@@ -29,6 +29,7 @@
         <li>Lokal auf deinem Gerät</li>
         <li>Kein Konto</li>
         <li>Kein Server</li>
+        <li><a href="https://github.com/hrudek/timeclaim">Open Source</a></li>
       </ul>
       <p><a class="btn btn-primary" href="#install">Installieren</a></p>
       <p class="hint">Kostenlos für Android und iPhone</p>
@@ -81,13 +82,13 @@
     <h2>Installieren in wenigen Minuten</h2>
     <p class="sub">TimeClaim gibt es noch nicht im Play Store oder App Store. So kommt die App trotzdem sicher auf dein Handy.</p>
 
-    <div class="switch" id="switch" role="group" aria-label="Gerät wählen" hidden>
-      <button type="button" data-os="android" aria-pressed="false">Android</button>
-      <button type="button" data-os="ios" aria-pressed="false">iPhone</button>
+    <div class="switch" id="switch" role="tablist" aria-label="Gerät wählen" hidden>
+      <button type="button" role="tab" id="tab-android" data-os="android" aria-controls="guide-android" aria-selected="false" tabindex="-1">Android</button>
+      <button type="button" role="tab" id="tab-ios" data-os="ios" aria-controls="guide-ios" aria-selected="false" tabindex="-1">iPhone</button>
     </div>
 
     <div class="guides" id="guides">
-      <article class="guide" id="guide-android" data-os="android" aria-labelledby="h-android">
+      <article class="guide" id="guide-android" data-os="android" role="tabpanel" aria-labelledby="h-android">
         <h3 id="h-android">Android</h3>
         <ol class="steps">
           <li>
@@ -126,7 +127,7 @@
         <p class="note"><b>Updates:</b> Bei einer neuen Version meldet sich die App beim Start. Lade dann die neue APK herunter und installiere sie über die bisherige App. Deine Daten bleiben erhalten.</p>
       </article>
 
-      <article class="guide" id="guide-ios" data-os="ios" aria-labelledby="h-ios">
+      <article class="guide" id="guide-ios" data-os="ios" role="tabpanel" aria-labelledby="h-ios">
         <h3 id="h-ios">iPhone</h3>
         <ol class="steps">
           <li>
@@ -153,8 +154,6 @@
         <p class="note"><b>Updates:</b> Neue Versionen kommen automatisch über TestFlight.</p>
       </article>
     </div>
-
-    <p class="other"><button type="button" class="link" id="other" hidden>Anderes Gerät?</button></p>
   </div>
 </section>
 
@@ -171,13 +170,26 @@
     </div>
   </div>
 </section>
+
+<section class="section" id="donate">
+  <div class="wrap">
+    <div class="card donate">
+      <h2>Kostenlos, ohne Werbung</h2>
+      <p>TimeClaim ist kostenlos, ohne Werbung und ohne Tracking. Die Kosten für Apple-Entwicklerprogramm, Hosting und viel Zeit trage ich, Hendrik. Wenn dir die App gefällt und hilft, freue ich mich über eine kleine Spende.</p>
+      <p><a class="btn btn-coffee" href="https://www.paypal.me/HendrikRudek" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2v3M12 2v3"/></svg> Kaffee spendieren</a></p>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer class="footer">
   <div class="wrap">
     <span>TimeClaim</span>
-    <a href="https://github.com/hrudek/timeclaim">GitHub</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="agb.html">AGB</a>
     <a href="https://github.com/hrudek/timeclaim/blob/main/docs/privacy.md">Datenschutz</a>
+    <a href="https://github.com/hrudek/timeclaim">GitHub</a>
+    <a href="https://www.paypal.me/HendrikRudek" target="_blank" rel="noopener">Spenden</a>
   </div>
 </footer>
 
