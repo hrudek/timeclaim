@@ -1,8 +1,5 @@
 name: CI
 
-# Checks every pull request and push to main: lint, typecheck, tests with
-# coverage thresholds (package.json "jest.coverageThreshold") and actionlint
-# over the workflows. Linux only; the iOS/Android builds live in build.yml.
 # branding:check is not run here: it needs ImageMagick 7 (`magick`), which the
 # ubuntu runners do not ship.
 
