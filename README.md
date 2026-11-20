@@ -1,6 +1,39 @@
+<div align="center">
+
+<img src="docs/media/logo.png" alt="TimeClaim-Logo" width="96">
+
 # TimeClaim
 
-Arbeitszeiten und Zuschläge erfassen und auswerten. Alle Daten bleiben lokal auf deinem Gerät, ohne Konto und ohne Server.
+**Arbeitszeiten und Zuschläge erfassen und mit der Abrechnung abgleichen.**<br>
+Alle Daten bleiben lokal auf deinem Gerät, ohne Konto und ohne Server.
+
+[iPhone](#iphone) · [Android](#android) · [Datenschutz](docs/privacy.md)
+
+<br>
+
+<img src="docs/media/timeclaim-tour.gif" alt="Rundgang durch TimeClaim: Monatsübersicht, Eintrag bearbeiten, Zulagen, Abgleich und zweiter Job" width="300">
+
+<sub>Rundgang mit Beispieldaten · [als Video ansehen (MP4)](docs/media/timeclaim-tour.mp4)</sub>
+
+</div>
+
+## Was TimeClaim kann
+
+- **Arbeitstage erfassen:** Beginn, Ende und Pause eintragen. Netto-Stunden, Nachtschichten über Mitternacht und Wochensummen rechnet die App selbst aus.
+- **Zulagen festhalten:** Bereitschaft und Einspringen mit einem Tipp, dazu beliebige eigene Zuschläge wie Nacht- oder Sonntagszuschlag.
+- **Mit der Abrechnung abgleichen:** Stunden und Zulagen von der Gehaltsabrechnung eintragen. TimeClaim zeigt sofort, wo etwas fehlt oder nicht stimmt.
+- **Mehrere Jobs:** Hauptjob und Minijob getrennt führen, jeweils mit eigener Farbe.
+- **Privat:** Kein Konto und kein Server. Sicherungen exportierst du selbst.
+
+<table>
+  <tr>
+    <td align="center" width="20%"><img src="docs/media/screen-tage.png" alt="Monatsübersicht mit erfassten Arbeitstagen"><br><sub><b>Monatsübersicht</b></sub></td>
+    <td align="center" width="20%"><img src="docs/media/screen-eintrag.png" alt="Arbeitstag mit Einspringen bearbeiten"><br><sub><b>Tag erfassen</b></sub></td>
+    <td align="center" width="20%"><img src="docs/media/screen-zulagen.png" alt="Übersicht der Zulagen im Monat"><br><sub><b>Zulagen</b></sub></td>
+    <td align="center" width="20%"><img src="docs/media/screen-abgleich.png" alt="Abgleich mit der Abrechnung zeigt zwei Abweichungen"><br><sub><b>Abgleich</b></sub></td>
+    <td align="center" width="20%"><img src="docs/media/screen-jobs.png" alt="Zweiter Job mit eigener Farbe"><br><sub><b>Mehrere Jobs</b></sub></td>
+  </tr>
+</table>
 
 ## Installieren
 
