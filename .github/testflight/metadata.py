@@ -27,6 +27,8 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG = ROOT / 'store' / 'testflight' / 'testflight.json'
 LIMITS = {'description': 4000, 'notes': 4000, 'agreementText': 32000}
 EMAIL = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+# Apple wants the international format, e.g. "+49 170 1234567".
+PHONE = re.compile(r'^\+[1-9]\d{0,3}( \d+)+$')
 LOCALIZATION_FIELDS = {'description', 'feedbackEmail', 'marketingUrl', 'privacyPolicyUrl'}
 REVIEW_FIELDS = {'contactFirstName', 'contactLastName', 'contactPhone', 'contactEmail',
                  'demoAccountRequired', 'demoAccountName', 'demoAccountPassword', 'notes'}
@@ -109,6 +111,9 @@ def _check(section, values, allowed, errors):
             errors.append(f'{section}.{key}: {len(value)} characters, at most {LIMITS[key]}')
         if key.endswith('Email') and not EMAIL.match(value):
             errors.append(f'{section}.{key}: not an e-mail address')
+        if key.endswith('Phone') and not PHONE.match(value):
+            errors.append(f'{section}.{key}: must look like "+49 170 1234567" '
+                          '(plus sign, country code, then digit groups separated by single spaces)')
         if key.endswith('Url') and not value.startswith('https://'):
             errors.append(f'{section}.{key}: must start with https://')
 
