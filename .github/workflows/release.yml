@@ -1,0 +1,116 @@
+name: Release
+
+# Pushing a tag vX.Y.Z on a commit that already has a test build (pre-release
+# "build-<n>" from build.yml) releases exactly that build to users:
+# iOS build <n> goes to the external TestFlight group, the Android APK becomes
+# the GitHub release vX.Y.Z (which the app's update check sees).
+# The tag must match the version in app.json and be newer than the last release.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.check.outputs.version }}
+      build: ${{ steps.check.outputs.build }}
+      notes: ${{ steps.check.outputs.notes }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check tag and find the test build
+        id: check
+        run: |
+          tag="$GITHUB_REF_NAME"
+          fail() { echo "::error::$1"; exit 1; }
+          [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || fail "Tag $tag is not vX.Y.Z."
+          version=$(node -p "require('./app.json').expo.version")
+          [ "v$version" = "$tag" ] || fail "Tag $tag does not match app.json version $version."
+          git merge-base --is-ancestor "$tag" origin/main || fail "Tag $tag is not on main."
+          sha=$(git rev-parse "$tag^{commit}")
+          build=$(gh api "repos/$GH_REPO/releases?per_page=100" \
+            --jq "[.[] | select(.prerelease and .target_commitish == \"$sha\") | .tag_name][0] // empty")
+          [ -n "$build" ] || fail "No test build for ${sha:0:7}. Wait for the Build workflow on main, then re-run."
+          latest=$(gh api "repos/$GH_REPO/releases/latest" --jq .tag_name 2>/dev/null || true)
+          if [ -n "$latest" ]; then
+            newest=$(printf '%s\n%s\n' "${latest#v}" "$version" | sort -V | tail -n 1)
+            { [ "$newest" = "$version" ] && [ "$latest" != "$tag" ]; } || fail "$tag is not newer than $latest."
+            range="$latest..$tag"
+          else
+            range="$tag"
+          fi
+          message=$(git tag -l --format='%(contents)' "$tag" | sed '/-----BEGIN/,$d')
+          [ -n "$message" ] || message=$(git log --no-merges --format='- %s' "$range" | head -n 30)
+          {
+            echo "version=$version"
+            echo "build=${build#build-}"
+            echo "notes<<NOTES_EOF"
+            echo "$message"
+            echo "NOTES_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "Releasing $tag from ${build} (${sha:0:7})." >> "$GITHUB_STEP_SUMMARY"
+
+  ios:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: testflight
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      VERSION: ${{ needs.prepare.outputs.version }}
+      BUILD_NUMBER: ${{ needs.prepare.outputs.build }}
+      NOTES: ${{ needs.prepare.outputs.notes }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Release to external TestFlight testers
+        env:
+          ASC_PRIVATE_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY_BASE64 }}
+        run: |
+          umask 077
+          echo "$ASC_PRIVATE_KEY_BASE64" | base64 --decode > "$RUNNER_TEMP/asc.p8"
+          printf '%s\n' "$NOTES" > "$RUNNER_TEMP/whats-new.txt"
+          ASC_KEY_PATH="$RUNNER_TEMP/asc.p8" WHATS_NEW_FILE="$RUNNER_TEMP/whats-new.txt" \
+            python3 .github/testflight/release.py
+          rm -f "$RUNNER_TEMP/asc.p8"
+
+  android:
+    needs: [prepare, ios]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      VERSION: ${{ needs.prepare.outputs.version }}
+      BUILD_NUMBER: ${{ needs.prepare.outputs.build }}
+      NOTES: ${{ needs.prepare.outputs.notes }}
+    steps:
+      - name: Publish the tested APK as the latest release
+        run: |
+          gh release download "build-$BUILD_NUMBER" --pattern '*.apk' --dir apk
+          mv apk/*.apk "apk/TimeClaim-$VERSION.apk"
+          printf '%s\n' "$NOTES" > notes.md
+          gh release create "$GITHUB_REF_NAME" "apk/TimeClaim-$VERSION.apk" --verify-tag --latest \
+            --title "TimeClaim $VERSION" --notes-file notes.md
+          echo "Android: released TimeClaim $VERSION ($BUILD_NUMBER) on GitHub." >> "$GITHUB_STEP_SUMMARY"

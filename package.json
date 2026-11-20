@@ -50,10 +50,7 @@
     "test": "jest --runInBand",
     "test:coverage": "jest --runInBand --coverage",
     "doctor": "expo-doctor",
-    "export:android": "expo export --platform android --output-dir dist/android",
-    "build:android:development": "npx eas-cli@24.8.0 build --platform android --profile development",
-    "build:android:preview": "npx eas-cli@24.8.0 build --platform android --profile preview",
-    "build:android:production": "npx eas-cli@24.8.0 build --platform android --profile production"
+    "export:android": "expo export --platform android --output-dir dist/android"
   },
   "jest": {
     "preset": "jest-expo",
