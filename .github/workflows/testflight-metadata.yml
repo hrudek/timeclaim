@@ -52,7 +52,10 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    environment: testflight
+    # Uses the environment for its secrets only; this is not a deployment.
+    environment:
+      name: testflight
+      deployment: false
     env:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
