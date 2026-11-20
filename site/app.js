@@ -1,13 +1,13 @@
 (function () {
-  var ua = navigator.userAgent;
-  var guides = {
+  const ua = navigator.userAgent;
+  const guides = {
     android: document.getElementById('guide-android'),
     ios: document.getElementById('guide-ios')
   };
-  var sw = document.getElementById('switch');
-  var other = document.getElementById('other');
-  var buttons = sw.querySelectorAll('button');
-  var detected = null;
+  const sw = document.getElementById('switch');
+  const other = document.getElementById('other');
+  const buttons = sw.querySelectorAll('button');
+  let detected = null;
 
   if (/Android/i.test(ua)) detected = 'android';
   else if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) detected = 'ios';
@@ -33,7 +33,7 @@
     show('android');
   }
 
-  var video = document.querySelector('.hero video');
+  const video = document.querySelector('.hero video');
   if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     video.removeAttribute('autoplay');
     video.pause();
@@ -42,7 +42,7 @@
   fetch('https://api.github.com/repos/hrudek/timeclaim/releases/latest')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
     .then(function (rel) {
-      var apk = (rel.assets || []).filter(function (a) { return /\.apk$/i.test(a.name); })[0];
+      const apk = (rel.assets || []).filter(function (a) { return /\.apk$/i.test(a.name); })[0];
       if (!apk) return;
       document.getElementById('apk-link').href = apk.browser_download_url;
       document.getElementById('apk-version').textContent = 'Version ' + String(rel.tag_name).replace(/^v/, '');
