@@ -147,6 +147,26 @@ h2 { font-size: clamp(1.7rem, 5vw, 2.4rem); line-height: 1.15; margin: 0 0 10px;
 .footer span { font-weight: 700; color: #fff; margin-right: auto; }
 .footer a { color: var(--mint); }
 
+@media (max-width: 700px) {
+  .features {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: -20px;
+    padding-inline: 20px;
+    scroll-padding-inline: 20px;
+  }
+  .features::-webkit-scrollbar { display: none; }
+  .features li { flex: 0 0 78%; scroll-snap-align: start; }
+  .features img { width: min(200px, 100%); }
+}
+.install .wrap { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.install .sub { margin-inline: auto; }
+.guides { width: 100%; max-width: 760px; text-align: left; }
+.steps, .note { max-width: none; }
+
 @media (min-width: 720px) {
   .features { grid-template-columns: repeat(2, 1fr); }
   .two { grid-template-columns: 1fr 1fr; }
