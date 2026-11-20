@@ -6,7 +6,7 @@ TimeClaim is built only by GitHub Actions (no EAS Build, no local Mac). The app 
 
 | Step | Trigger | iOS | Android |
 | --- | --- | --- | --- |
-| Test build | Push to `main` (workflow **Build**) | TestFlight, internal testers only | GitHub pre-release `build-<n>` with the APK |
+| Test build | Push to `main` (workflow **Build**; skipped if only Markdown or `docs/` changed) | TestFlight, internal testers only | GitHub pre-release `build-<n>` with the APK |
 | Release | Tag `vX.Y.Z` on a tested commit (workflow **Release**) | The same build goes to the external TestFlight group "Tester" and is submitted for TestFlight review | The same APK becomes the GitHub release `vX.Y.Z` |
 
 `<n>` is the Build workflow run number. It is the iOS build number and the Android `versionCode` (set through `app.config.js` from `BUILD_NUMBER`). The user-visible version comes from `app.json`.

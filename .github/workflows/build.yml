@@ -1,6 +1,7 @@
 name: Build
 
-# Every push to main (and on demand): test builds for both platforms.
+# Every push to main that touches the app (and on demand): test builds for both
+# platforms. Pushes that only change documentation (Markdown, docs/) skip it.
 # iOS goes to TestFlight (internal testers only), the Android APK becomes the
 # GitHub pre-release "build-<n>". Nothing reaches users until a v* tag is
 # pushed (see release.yml). Build number = Android versionCode = run number.
@@ -8,6 +9,10 @@ name: Build
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
   workflow_dispatch:
 
 permissions:
