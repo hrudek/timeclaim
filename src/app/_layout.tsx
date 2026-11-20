@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold } from '@expo-google-fonts/manrope';
 import { AppStoreProvider } from '@/context/app-store';
+import { checkForUpdate } from '@/updates/check-for-update';
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({ Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold });
@@ -11,6 +12,10 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) console.error('App fonts could not be loaded; using system fonts instead.', error);
   }, [error]);
+
+  useEffect(() => {
+    void checkForUpdate();
+  }, []);
 
   // A font failure must not hide database startup errors (or the rest of the app).
   if (!loaded && !error) return null;
