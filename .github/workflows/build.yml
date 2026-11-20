@@ -173,10 +173,13 @@ jobs:
           ANDROID_CERT_SHA256: ${{ vars.ANDROID_CERT_SHA256 }}
         run: |
           apk=android/app/build/outputs/apk/release/app-release.apk
-          tools=$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -n 1)
-          digest=$("$tools/apksigner" verify --print-certs "$apk" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p')
+          apksigner=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)
+          [ -n "$apksigner" ] || { echo "apksigner not found in $ANDROID_HOME/build-tools" >&2; exit 1; }
+          certs=$("$apksigner" verify --print-certs "$apk" 2>&1) || { echo "$certs" >&2; exit 1; }
+          digest=$(printf '%s\n' "$certs" | sed -n 's/^Signer #1 certificate SHA-256 digest: //p' | head -n 1)
           if [ "$digest" != "$ANDROID_CERT_SHA256" ]; then
-            echo "APK is not signed with the upload key (got $digest)." >&2
+            printf '%s\n' "$certs" | grep -v -i 'warning' >&2
+            echo "APK is not signed with the upload key (got '$digest')." >&2
             exit 1
           fi
           version=$(node -p "require('./app.json').expo.version")
