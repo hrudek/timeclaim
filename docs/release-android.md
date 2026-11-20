@@ -1,6 +1,14 @@
 # Android release
 
-TimeClaim uses EAS Build. The Android application ID is `de.timeclaim.app`.
+TimeClaim uses EAS Build. The Android application ID is `dev.rudek.timeclaim`.
+
+## Migration from `de.timeclaim.app`
+
+Early APKs used the package `de.timeclaim.app`. Android treats the new package as a separate app, so it installs next to the old one instead of updating it. To move data:
+
+1. In the old app, export a backup (share the JSON file or copy it to the clipboard).
+2. Install the new APK, open it and paste the backup text, then choose **Aus Text wiederherstellen**. Restoring replaces the data in the new app, so do it before entering anything there.
+3. Check the data, then uninstall the old app (uninstalling deletes its data).
 
 ## Build profiles
 

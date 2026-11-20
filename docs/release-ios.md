@@ -1,6 +1,6 @@
 # iOS release (TestFlight)
 
-Bundle ID `dev.rudek.timeclaim` (convention `dev.rudek.<app>`; Android still uses `de.timeclaim.app`), built on a GitHub-hosted macOS runner (no EAS, no Mac needed).
+Bundle ID `dev.rudek.timeclaim` (convention `dev.rudek.<app>`, same as the Android package), built on a GitHub-hosted macOS runner (no EAS, no Mac needed).
 
 The workflow `.github/workflows/testflight.yml` runs on every push to `main` and on manual dispatch (environment `testflight`, restricted to `main`). It runs `expo prebuild`, signs the archive manually with the Apple Distribution certificate, and uploads it to App Store Connect. The build number is the workflow run number; the user-visible version comes from `app.json`.
 
