@@ -5,10 +5,16 @@ name: Release
 # iOS build <n> goes to the external TestFlight group, the Android APK becomes
 # the GitHub release vX.Y.Z (which the app's update check sees).
 # The tag must match the version in app.json and be newer than the last release.
+# To retry a release with the current workflow, run it manually with the tag.
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to release, e.g. v1.0.0
+        required: true
 
 permissions:
   contents: read
@@ -28,16 +34,18 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
+      TAG: ${{ inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          ref: ${{ inputs.tag || github.ref_name }}
           fetch-depth: 0
           persist-credentials: false
 
       - name: Check tag and find the test build
         id: check
         run: |
-          tag="$GITHUB_REF_NAME"
+          tag="$TAG"
           fail() { echo "::error::$1"; exit 1; }
           [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || fail "Tag $tag is not vX.Y.Z."
           version=$(node -p "require('./app.json').expo.version")
@@ -47,7 +55,9 @@ jobs:
           build=$(gh api "repos/$GH_REPO/releases?per_page=100" \
             --jq "[.[] | select(.prerelease and .target_commitish == \"$sha\") | .tag_name][0] // empty")
           [ -n "$build" ] || fail "No test build for ${sha:0:7}. Wait for the Build workflow on main, then re-run."
-          latest=$(gh api "repos/$GH_REPO/releases/latest" --jq .tag_name 2>/dev/null || true)
+          # No release yet: the API answers 404 (and prints its error body), so use the exit code.
+          latest=$(gh api "repos/$GH_REPO/releases/latest" --jq .tag_name 2>/dev/null) || latest=""
+          [[ -z "$latest" || "$latest" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || fail "Unexpected latest release tag: $latest"
           if [ -n "$latest" ]; then
             newest=$(printf '%s\n%s\n' "${latest#v}" "$version" | sort -V | tail -n 1)
             { [ "$newest" = "$version" ] && [ "$latest" != "$tag" ]; } || fail "$tag is not newer than $latest."
@@ -105,12 +115,13 @@ jobs:
       VERSION: ${{ needs.prepare.outputs.version }}
       BUILD_NUMBER: ${{ needs.prepare.outputs.build }}
       NOTES: ${{ needs.prepare.outputs.notes }}
+      TAG: ${{ inputs.tag || github.ref_name }}
     steps:
       - name: Publish the tested APK as the latest release
         run: |
           gh release download "build-$BUILD_NUMBER" --pattern '*.apk' --dir apk
           mv apk/*.apk "apk/TimeClaim-$VERSION.apk"
           printf '%s\n' "$NOTES" > notes.md
-          gh release create "$GITHUB_REF_NAME" "apk/TimeClaim-$VERSION.apk" --verify-tag --latest \
+          gh release create "$TAG" "apk/TimeClaim-$VERSION.apk" --verify-tag --latest \
             --title "TimeClaim $VERSION" --notes-file notes.md
           echo "Android: released TimeClaim $VERSION ($BUILD_NUMBER) on GitHub." >> "$GITHUB_STEP_SUMMARY"
