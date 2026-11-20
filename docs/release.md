@@ -33,14 +33,6 @@ The Release workflow refuses tags that are not `vX.Y.Z`, do not match `app.json`
 - **iOS:** install TestFlight and join through the public link of the group "Tester" (shown in the Release run summary and in App Store Connect). TestFlight updates automatically. Builds expire after 90 days; the first build of a new version needs TestFlight App Review.
 - **Android:** download the APK from the latest GitHub release and install it. On start, the app checks the latest GitHub release (`src/updates/check-for-update.ts`) and offers the download when a newer version exists. Installing over the existing app keeps the data. Pre-releases are never offered.
 
-## Migration from `de.timeclaim.app`
-
-Early APKs used the package `de.timeclaim.app`. Android treats the new package as a separate app, so it installs next to the old one instead of updating it. To move data:
-
-1. In the old app, export a backup (share the JSON file or copy it to the clipboard).
-2. Install the new APK, open it and paste the backup text, then choose **Aus Text wiederherstellen**. Restoring replaces the data in the new app, so do it before entering anything there.
-3. Check the data, then uninstall the old app (uninstalling deletes its data).
-
 ## Signing and secrets
 
 Never commit keys, certificates, keystores or profiles.
