@@ -18,7 +18,7 @@ import time
 import urllib.error
 import urllib.request
 
-BUNDLE = 'de.timeclaim.app'
+BUNDLE = 'dev.rudek.timeclaim'
 PREFIX = 'TimeClaim CI'
 KEY_ID = os.environ['ASC_KEY_ID']
 ISSUER = os.environ['ASC_ISSUER_ID']
