@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TimeClaim – Arbeitszeiten und Zuschläge mit der Abrechnung abgleichen</title>
+<meta name="description" content="TimeClaim erfasst deine Arbeitszeiten und Zuschläge und gleicht sie mit der Abrechnung ab. Lokal auf deinem Handy, ohne Konto und ohne Server. Für Android und iPhone.">
+<meta name="theme-color" content="#080E38">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TimeClaim">
+<meta property="og:description" content="Arbeitszeiten und Zuschläge erfassen und mit der Abrechnung abgleichen. Lokal, ohne Konto, ohne Server.">
+<meta property="og:image" content="https://hrudek.github.io/timeclaim/media/icon-512.png">
+<meta property="og:url" content="https://hrudek.github.io/timeclaim/">
+<meta property="og:locale" content="de_DE">
+<link rel="icon" href="media/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#install">Zur Installation</a>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="brand"><img src="media/logo.png" alt="" width="56" height="56"><span>TimeClaim</span></div>
+      <h1>Hol dir, was dir zusteht.</h1>
+      <p class="lead">Arbeitszeiten und Zuschläge erfassen und mit der Abrechnung abgleichen.</p>
+      <ul class="promise" aria-label="Datenschutz">
+        <li>Lokal auf deinem Gerät</li>
+        <li>Kein Konto</li>
+        <li>Kein Server</li>
+      </ul>
+      <p><a class="btn btn-primary" href="#install">Installieren</a></p>
+      <p class="hint">Kostenlos für Android und iPhone</p>
+    </div>
+    <div class="phone" aria-hidden="false">
+      <video autoplay muted loop playsinline preload="metadata" poster="media/screen-tage.png" aria-label="Rundgang durch TimeClaim: Monatsübersicht, Eintrag bearbeiten, Zulagen, Abgleich und zweiter Job">
+        <source src="media/timeclaim-tour.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="section" id="features">
+  <div class="wrap">
+    <h2>Was TimeClaim kann</h2>
+    <p class="sub">Fünf Dinge, die dir das Nachrechnen abnehmen.</p>
+    <ol class="features">
+      <li>
+        <img src="media/screen-tage.png" alt="Monatsübersicht mit erfassten Arbeitstagen" width="300" height="649">
+        <h3>Arbeitstage erfassen</h3>
+        <p>Beginn, Ende und Pause eintragen. Netto-Stunden, Nachtschichten über Mitternacht und Wochensummen rechnet die App selbst aus.</p>
+      </li>
+      <li>
+        <img src="media/screen-eintrag.png" alt="Arbeitstag mit Einspringen bearbeiten" width="300" height="649">
+        <h3>Zulagen festhalten</h3>
+        <p>Bereitschaft und Einspringen mit einem Tipp, dazu eigene Zuschläge wie Nacht- oder Sonntagszuschlag.</p>
+      </li>
+      <li>
+        <img src="media/screen-zulagen.png" alt="Übersicht der Zulagen im Monat" width="300" height="649">
+        <h3>Alles im Überblick</h3>
+        <p>Deine Zulagen im Monat auf einen Blick, sauber aufsummiert.</p>
+      </li>
+      <li>
+        <img src="media/screen-abgleich.png" alt="Abgleich mit der Abrechnung zeigt zwei Abweichungen" width="300" height="649">
+        <h3>Mit der Abrechnung abgleichen</h3>
+        <p>Trage Stunden und Zulagen von der Gehaltsabrechnung ein. TimeClaim zeigt sofort, wo etwas fehlt oder nicht stimmt.</p>
+      </li>
+      <li>
+        <img src="media/screen-jobs.png" alt="Zweiter Job mit eigener Farbe" width="300" height="649">
+        <h3>Mehrere Jobs</h3>
+        <p>Hauptjob und Minijob getrennt führen, jeweils mit eigener Farbe.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section install" id="install">
+  <div class="wrap">
+    <h2>Installieren in wenigen Minuten</h2>
+    <p class="sub">TimeClaim gibt es noch nicht im Play Store oder App Store. So kommt die App trotzdem sicher auf dein Handy.</p>
+
+    <div class="switch" id="switch" role="group" aria-label="Gerät wählen" hidden>
+      <button type="button" data-os="android" aria-pressed="false">Android</button>
+      <button type="button" data-os="ios" aria-pressed="false">iPhone</button>
+    </div>
+
+    <div class="guides" id="guides">
+      <article class="guide" id="guide-android" data-os="android" aria-labelledby="h-android">
+        <h3 id="h-android">Android</h3>
+        <ol class="steps">
+          <li>
+            <div class="step-body">
+              <h4>APK herunterladen</h4>
+              <p>Tippe auf den Button. Die Datei ist etwa <span id="apk-size">80</span>&nbsp;MB groß.</p>
+              <a class="btn btn-primary btn-big" id="apk-link" href="https://github.com/hrudek/timeclaim/releases/latest" rel="noopener">APK herunterladen</a>
+              <p class="hint" id="apk-version">Neueste Version auf GitHub</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <h4>Datei öffnen</h4>
+              <p>Tippe nach dem Download in der Benachrichtigung auf die Datei, oder öffne sie in der App <b>Dateien</b> im Ordner <b>Downloads</b>.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <h4>Installation erlauben</h4>
+              <p>Fragt Android nach <b>„Unbekannte Apps installieren“</b>, tippe auf <b>Einstellungen</b> und erlaube es für deinen Browser (oder die Dateien-App). Dann zurück und die Datei noch einmal öffnen.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <h4>Installieren tippen</h4>
+              <p>Tippe auf <b>Installieren</b>. Zeigt Play Protect eine Warnung, tippe auf <b>Trotzdem installieren</b>. Die App kommt nicht aus dem Play Store, deshalb fragt Android nach.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <h4>TimeClaim öffnen</h4>
+              <p>Tippe auf <b>Öffnen</b>. Fertig.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="note"><b>Updates:</b> Bei einer neuen Version meldet sich die App beim Start. Lade dann die neue APK herunter und installiere sie über die bisherige App. Deine Daten bleiben erhalten.</p>
+      </article>
+
+      <article class="guide" id="guide-ios" data-os="ios" aria-labelledby="h-ios">
+        <h3 id="h-ios">iPhone</h3>
+        <ol class="steps">
+          <li>
+            <div class="step-body">
+              <h4>TestFlight installieren</h4>
+              <p>TestFlight ist Apples offizielle App für Beta-Tests. Installiere sie kostenlos aus dem App Store.</p>
+              <a class="btn btn-primary btn-big" href="https://apps.apple.com/app/testflight/id899247664" rel="noopener">TestFlight laden</a>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <h4>Einladung öffnen</h4>
+              <p>Öffne den Einladungslink für TimeClaim. Tippe in TestFlight auf <b>Akzeptieren</b> und dann auf <b>Installieren</b>.</p>
+              <a class="btn btn-primary btn-big" href="https://testflight.apple.com/join/j2f67uFT" rel="noopener">Einladung öffnen</a>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <h4>TimeClaim öffnen</h4>
+              <p>Tippe in TestFlight auf <b>Öffnen</b>. Fertig.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="note"><b>Updates:</b> Neue Versionen kommen automatisch über TestFlight.</p>
+      </article>
+    </div>
+
+    <p class="other"><button type="button" class="link" id="other" hidden>Anderes Gerät?</button></p>
+  </div>
+</section>
+
+<section class="section" id="more">
+  <div class="wrap two">
+    <div class="card">
+      <h2>Daten sichern</h2>
+      <p>Deine Daten liegen nur auf deinem Gerät. Wenn du die App löschst oder das Gerät verlierst, sind sie weg. Exportiere deshalb regelmäßig eine Sicherung: Zahnrad oben rechts, dann <b>Daten exportieren</b>. Über <b>Aus Text wiederherstellen</b> spielst du sie wieder ein, auch auf einem neuen Gerät.</p>
+    </div>
+    <div class="card">
+      <h2>Feedback</h2>
+      <p>Fehler und Wünsche an <a href="mailto:timeclaim@rudek.dev">timeclaim@rudek.dev</a>. Auf dem iPhone geht es auch direkt über TestFlight: Screenshot machen, Teilen, Beta-Feedback.</p>
+      <p><a href="https://github.com/hrudek/timeclaim/blob/main/docs/privacy.md">Datenschutzerklärung</a></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>TimeClaim</span>
+    <a href="https://github.com/hrudek/timeclaim">GitHub</a>
+    <a href="https://github.com/hrudek/timeclaim/blob/main/docs/privacy.md">Datenschutz</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
