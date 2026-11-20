@@ -1,0 +1,6 @@
+# build.yml picks the single generated ios/*.xcworkspace with `ls -d`, which is
+# safe there; keep that shellcheck info from failing the actionlint CI job.
+paths:
+  .github/workflows/build.yml:
+    ignore:
+      - 'SC2012:'
