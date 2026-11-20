@@ -7,7 +7,7 @@
 **Arbeitszeiten und Zuschläge erfassen und mit der Abrechnung abgleichen.**<br>
 Alle Daten bleiben lokal auf deinem Gerät, ohne Konto und ohne Server.
 
-[iPhone](#iphone) · [Android](#android) · [Datenschutz](docs/privacy.md)
+[Webseite](https://hrudek.github.io/timeclaim/) · [iPhone](#iphone) · [Android](#android) · [Datenschutz](docs/privacy.md)
 
 <br>
 
