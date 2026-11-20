@@ -63,7 +63,7 @@ Fehler und Wünsche an timeclaim@rudek.dev oder auf dem iPhone direkt über Test
 
 ## Entwicklung
 
-Expo (React Native). `npm ci`, dann `npm start`. Checks: `npm run lint`, `npm run typecheck`, `npm test`. Builds und Releases laufen über GitHub Actions, siehe [docs/release.md](docs/release.md).
+Expo (React Native). `npm ci`, dann `npm start`. Checks: `npm run lint`, `npm run typecheck`, `npm test`; CI (`.github/workflows/ci.yml`) führt sie für jeden PR aus. Builds und Releases laufen über GitHub Actions, siehe [docs/release.md](docs/release.md).
 
 ## Lizenz
 

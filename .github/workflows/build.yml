@@ -22,6 +22,9 @@ on:
       - '.github/workflows/pages.yml'
       - '.github/workflows/release.yml'
       - '.github/workflows/testflight-metadata.yml'
+      - '.github/workflows/ci.yml'
+      - '.github/actionlint.yaml'
+      - 'src/**/*.test.ts'
   workflow_dispatch:
 
 permissions:
