@@ -1,6 +1,6 @@
 # iOS release (TestFlight)
 
-Bundle ID `de.timeclaim.app`, built on a GitHub-hosted macOS runner (no EAS, no Mac needed).
+Bundle ID `dev.rudek.timeclaim` (convention `dev.rudek.<app>`; Android still uses `de.timeclaim.app`), built on a GitHub-hosted macOS runner (no EAS, no Mac needed).
 
 The workflow `.github/workflows/testflight.yml` runs on every push to `main` and on manual dispatch (environment `testflight`, restricted to `main`). It runs `expo prebuild`, signs the archive manually with the Apple Distribution certificate, and uploads it to App Store Connect. The build number is the workflow run number; the user-visible version comes from `app.json`.
 
@@ -18,8 +18,8 @@ Never commit keys, certificates or profiles.
 
 ## One-time Apple setup
 
-1. The bundle ID `de.timeclaim.app` is registered (no extra capabilities needed).
-2. Create the app record in App Store Connect (My Apps > + > New App, bundle ID `de.timeclaim.app`). The API cannot do this.
+1. The bundle ID `dev.rudek.timeclaim` is registered (no extra capabilities needed).
+2. Create the app record in App Store Connect (My Apps > + > New App, bundle ID `dev.rudek.timeclaim`). The API cannot do this.
 3. Add internal testers (Users and Access, then TestFlight > Internal Testing).
 
 ## Releasing

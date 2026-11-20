@@ -11,7 +11,7 @@
     "primaryColor": "#080E38",
     "ios": {
       "icon": "./assets/images/icon.png",
-      "bundleIdentifier": "de.timeclaim.app",
+      "bundleIdentifier": "dev.rudek.timeclaim",
       "buildNumber": "1",
       "supportsTablet": false,
       "infoPlist": {
