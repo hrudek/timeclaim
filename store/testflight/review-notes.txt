@@ -1,0 +1,9 @@
+TimeClaim records working hours and allowances and compares them with the user's payslip. The app is in German.
+
+No account, no login and no server: all data is stored locally on the device. On iOS the app makes no network requests. No demo account is needed; on first start the app shows sample data ("Beispieldaten") that can be deleted.
+
+How to test:
+1. Tab "Tage": the days of the month. Tap "+" to add a working day with start, end and break.
+2. Tab "Zulagen": the allowances of the month.
+3. Tab "Abgleich": enter hours from a payslip and see the differences.
+4. Gear icon (top right, "Einstellungen"): manage jobs and export or import a backup.

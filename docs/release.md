@@ -28,6 +28,28 @@ Nothing reaches users without a tag. The Release workflow rebuilds nothing; it p
 
 The Release workflow refuses tags that are not `vX.Y.Z`, do not match `app.json`, are not on `main`, are not newer than the last release, or have no test build. Re-running a failed Release run is safe.
 
+## TestFlight metadata
+
+`store/testflight/` is the single source of truth for everything TestFlight shows or asks for besides the build. Do not edit these fields in App Store Connect; the next sync overwrites them.
+
+| What | Source |
+| --- | --- |
+| Beta app description (per language) | `store/testflight/<locale>/description.txt` |
+| Feedback e-mail, marketing URL, privacy policy URL | `store/testflight/testflight.json` |
+| Contact, notes and demo account for TestFlight App Review | `testflight.json`, notes in `store/testflight/review-notes.txt`, phone in the secret `ASC_REVIEW_CONTACT_PHONE` |
+| Beta license agreement | generated from `site/agb.html` |
+| External group (name, feedback, public link limit) | `testflight.json` |
+| Third-party content declaration | `testflight.json` |
+| "What to Test" per build | tag message (see above) |
+
+Languages in App Store Connect that are missing from the file are deleted; the app's primary language must be in it. TestFlight has no screenshots; those belong to an App Store listing.
+
+The workflow **TestFlight metadata** validates the files on pull requests and writes them to App Store Connect on pushes to `main` (run it manually with *dry-run* to preview). The Release workflow syncs again before each release. Locally:
+
+```sh
+python3 .github/testflight/metadata.py --validate
+```
+
 ## Users
 
 - **iOS:** install TestFlight and join through the public link of the group "Tester" (shown in the Release run summary and in App Store Connect). TestFlight updates automatically. Builds expire after 90 days; the first build of a new version needs TestFlight App Review.
@@ -43,9 +65,10 @@ Never commit keys, certificates, keystores or profiles.
 | --- | --- |
 | Variable | `APPLE_TEAM_ID`, `APPLE_CERTIFICATE_ID` |
 | Secret | `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_PRIVATE_KEY_BASE64` |
+| Secret | `ASC_REVIEW_CONTACT_PHONE` (e.g. `+49 170 1234567`, kept out of the public repository) |
 | Secret | `IOS_CERTIFICATE_P12_BASE64`, `IOS_CERTIFICATE_PASSWORD` |
 
-`.github/testflight/profiles.py` reuses or creates the "TimeClaim CI" App Store profile through the App Store Connect API; `release.py` handles the external TestFlight release.
+`.github/testflight/profiles.py` reuses or creates the "TimeClaim CI" App Store profile through the App Store Connect API; `metadata.py` syncs `store/testflight/`; `release.py` handles the external TestFlight release.
 
 **Environment `android`** (branch `main`)
 

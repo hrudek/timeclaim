@@ -1,0 +1,10 @@
+TimeClaim hilft dir, Arbeitszeiten und Zuschläge zu erfassen und mit deiner Gehaltsabrechnung abzugleichen.
+
+- Arbeitstage erfassen: Beginn, Ende und Pause eintragen. Netto-Stunden, Nachtschichten über Mitternacht und Wochensummen rechnet die App selbst aus.
+- Zulagen festhalten: Bereitschaft und Einspringen mit einem Tipp, dazu eigene Zuschläge wie Nacht- oder Sonntagszuschlag.
+- Mit der Abrechnung abgleichen: Stunden und Zulagen von der Gehaltsabrechnung eintragen. TimeClaim zeigt sofort, wo etwas fehlt oder nicht stimmt.
+- Mehrere Jobs: Hauptjob und Minijob getrennt führen, jeweils mit eigener Farbe.
+
+Alle Daten bleiben lokal auf deinem Gerät, ohne Konto und ohne Server. Sicherungen exportierst du selbst über das Zahnrad oben rechts.
+
+Das ist eine Test-Version. Fehler und Wünsche bitte direkt über TestFlight melden (Screenshot machen, Teilen, Beta-Feedback senden) oder an timeclaim@rudek.dev.

@@ -1,0 +1,77 @@
+name: TestFlight metadata
+
+# store/testflight/ is the single source of truth for the TestFlight test
+# information (beta description, feedback e-mail, URLs, review contact and
+# notes, license agreement from site/agb.html, settings of the external group).
+# Pull requests validate it; pushes to main write it to App Store Connect.
+# release.yml syncs it again before every release.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'store/testflight/**'
+      - 'site/agb.html'
+      - '.github/testflight/asc.py'
+      - '.github/testflight/metadata.py'
+      - '.github/workflows/testflight-metadata.yml'
+  pull_request:
+    paths:
+      - 'store/testflight/**'
+      - 'site/agb.html'
+      - '.github/testflight/metadata.py'
+      - '.github/workflows/testflight-metadata.yml'
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Only show what would change
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testflight-metadata
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Validate store/testflight
+        run: python3 .github/testflight/metadata.py --validate
+
+  sync:
+    needs: validate
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: testflight
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_REVIEW_CONTACT_PHONE: ${{ secrets.ASC_REVIEW_CONTACT_PHONE }}
+      DRY_RUN: ${{ inputs.dry-run || false }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Sync to App Store Connect
+        env:
+          ASC_PRIVATE_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY_BASE64 }}
+        run: |
+          set -o pipefail
+          umask 077
+          echo "$ASC_PRIVATE_KEY_BASE64" | base64 --decode > "$RUNNER_TEMP/asc.p8"
+          trap 'rm -f "$RUNNER_TEMP/asc.p8"' EXIT
+          args=()
+          if [ "$DRY_RUN" = true ]; then args+=(--dry-run); fi
+          ASC_KEY_PATH="$RUNNER_TEMP/asc.p8" python3 .github/testflight/metadata.py "${args[@]}" \
+            | tee -a "$GITHUB_STEP_SUMMARY"

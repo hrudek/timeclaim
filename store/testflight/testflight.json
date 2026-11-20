@@ -1,0 +1,29 @@
+{
+  "app": {
+    "contentRightsDeclaration": "DOES_NOT_USE_THIRD_PARTY_CONTENT"
+  },
+  "localizations": {
+    "de-DE": {
+      "description": { "file": "store/testflight/de-DE/description.txt" },
+      "feedbackEmail": "timeclaim@rudek.dev",
+      "marketingUrl": "https://hrudek.github.io/timeclaim/",
+      "privacyPolicyUrl": "https://github.com/hrudek/timeclaim/blob/main/docs/privacy.md"
+    }
+  },
+  "betaAppReviewDetail": {
+    "contactFirstName": "Hendrik",
+    "contactLastName": "Rudek",
+    "contactEmail": "timeclaim@rudek.dev",
+    "contactPhone": { "env": "ASC_REVIEW_CONTACT_PHONE" },
+    "demoAccountRequired": false,
+    "notes": { "file": "store/testflight/review-notes.txt" }
+  },
+  "betaLicenseAgreement": {
+    "agreementText": { "html": "site/agb.html", "baseUrl": "https://hrudek.github.io/timeclaim/" }
+  },
+  "group": {
+    "name": "Tester",
+    "feedbackEnabled": true,
+    "publicLinkLimitEnabled": false
+  }
+}
