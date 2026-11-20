@@ -64,3 +64,7 @@ Fehler und Wünsche an timeclaim@rudek.dev oder auf dem iPhone direkt über Test
 ## Entwicklung
 
 Expo (React Native). `npm ci`, dann `npm start`. Checks: `npm run lint`, `npm run typecheck`, `npm test`. Builds und Releases laufen über GitHub Actions, siehe [docs/release.md](docs/release.md).
+
+## Lizenz
+
+MIT, siehe [LICENSE](LICENSE).
