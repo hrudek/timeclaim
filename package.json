@@ -61,7 +61,8 @@
     "collectCoverageFrom": [
       "src/domain/*.ts",
       "src/database/mapper.ts",
-      "src/database/migrations.ts"
+      "src/database/migrations.ts",
+      "src/updates/check-for-update.ts"
     ],
     "coveragePathIgnorePatterns": [
       "src/domain/model.ts"
