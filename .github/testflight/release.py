@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Release a tested TestFlight build to the external testers.
 
-Finds build BUILD_NUMBER of version VERSION, sets its "What to Test" text from
-the file WHATS_NEW_FILE (optional), adds it to the external group "Tester"
-(created if missing), submits it for TestFlight App Review and enables the
-group's public link. Safe to re-run. Prints nothing secret.
+Syncs the TestFlight metadata from store/testflight/ (metadata.py), finds build
+BUILD_NUMBER of version VERSION, sets its "What to Test" text from the file
+WHATS_NEW_FILE (optional), adds it to the external group named in the metadata,
+submits it for TestFlight App Review and enables the group's public link.
+Safe to re-run. Prints nothing secret.
 """
 import os
 from pathlib import Path
@@ -12,8 +13,8 @@ import sys
 import time
 
 from asc import ApiError, api, app_id
+from metadata import sync
 
-GROUP = 'Tester'
 BUILD_NUMBER = os.environ['BUILD_NUMBER']
 VERSION = os.environ['VERSION']
 REVIEW_STATES = {'WAITING_FOR_BETA_REVIEW', 'IN_BETA_REVIEW', 'BETA_APPROVED', 'IN_BETA_TESTING'}
@@ -24,21 +25,6 @@ def summary(line):
     if os.environ.get('GITHUB_STEP_SUMMARY'):
         with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
             handle.write(line + '\n')
-
-
-def check_test_information(app, locale):
-    missing = []
-    localizations = api('GET', f'/v1/apps/{app}/betaAppLocalizations')['data']
-    attrs = next((l['attributes'] for l in localizations if l['attributes']['locale'] == locale), {})
-    missing += [f'Beta-App-Beschreibung ({locale})'] if not attrs.get('description') else []
-    missing += [f'Feedback-E-Mail ({locale})'] if not attrs.get('feedbackEmail') else []
-    review = api('GET', f'/v1/apps/{app}/betaAppReviewDetail')['data']['attributes']
-    for key, label in [('contactFirstName', 'Vorname'), ('contactLastName', 'Nachname'),
-                       ('contactPhone', 'Telefon'), ('contactEmail', 'E-Mail')]:
-        if not review.get(key):
-            missing.append(f'Kontakt für die Beta-Prüfung: {label}')
-    if missing:
-        sys.exit('TestFlight > Testinformationen in App Store Connect unvollständig:\n- ' + '\n- '.join(missing))
 
 
 def find_build(app):
@@ -76,18 +62,6 @@ def set_whats_new(build, locale):
             'relationships': {'build': {'data': {'type': 'builds', 'id': build}}}}})
 
 
-def external_group(app):
-    groups = api('GET', f'/v1/apps/{app}/betaGroups?limit=200')['data']
-    group = next((g for g in groups if g['attributes']['name'] == GROUP
-                  and not g['attributes']['isInternalGroup']), None)
-    if group:
-        return group
-    print(f'Creating external TestFlight group "{GROUP}"')
-    return api('POST', '/v1/betaGroups', {'data': {
-        'type': 'betaGroups', 'attributes': {'name': GROUP},
-        'relationships': {'app': {'data': {'type': 'apps', 'id': app}}}}})['data']
-
-
 def submit_for_review(build):
     state = api('GET', f'/v1/builds/{build}/buildBetaDetail')['data']['attributes'].get('externalBuildState')
     if state in REVIEW_STATES:
@@ -115,15 +89,14 @@ def enable_public_link(group):
 
 def main():
     app = app_id()
-    locale = api('GET', f'/v1/apps/{app}?fields[apps]=primaryLocale')['data']['attributes']['primaryLocale']
-    check_test_information(app, locale)
+    locale, group = sync(api, app)
     build = find_build(app)
     set_whats_new(build, locale)
-    group = external_group(app)
     api('POST', f'/v1/betaGroups/{group["id"]}/relationships/builds',
         {'data': [{'type': 'builds', 'id': build}]})
     state = submit_for_review(build)
-    summary(f'iOS: TimeClaim {VERSION} ({BUILD_NUMBER}) added to TestFlight group "{GROUP}", state {state}.')
+    name = group['attributes']['name']
+    summary(f'iOS: TimeClaim {VERSION} ({BUILD_NUMBER}) added to TestFlight group "{name}", state {state}.')
     enable_public_link(group)
 
 
