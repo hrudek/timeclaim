@@ -13,7 +13,10 @@
       "icon": "./assets/images/icon.png",
       "bundleIdentifier": "de.timeclaim.app",
       "buildNumber": "1",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
