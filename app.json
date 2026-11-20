@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "package": "de.timeclaim.app",
+      "package": "dev.rudek.timeclaim",
       "versionCode": 1,
       "predictiveBackGestureEnabled": false,
       "softwareKeyboardLayoutMode": "resize"
