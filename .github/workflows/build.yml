@@ -2,7 +2,8 @@ name: Build
 
 # Every push to main that touches the app (and on demand): test builds for both
 # platforms. Pushes that only change documentation (Markdown, docs/), the
-# website or the TestFlight metadata (store/, see testflight-metadata.yml) skip it.
+# website, the TestFlight metadata (store/, see testflight-metadata.yml) or
+# other workflows and their scripts skip it.
 # iOS goes to TestFlight (internal testers only), the Android APK becomes the
 # GitHub pre-release "build-<n>". Nothing reaches users until a v* tag is
 # pushed (see release.yml). Build number = Android versionCode = run number.
@@ -16,6 +17,11 @@ on:
       - 'site/**'
       - 'store/**'
       - 'LICENSE'
+      - '.github/testflight/metadata.py'
+      - '.github/testflight/release.py'
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/release.yml'
+      - '.github/workflows/testflight-metadata.yml'
   workflow_dispatch:
 
 permissions:
