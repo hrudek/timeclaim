@@ -8,54 +8,18 @@ $RUNNER_TEMP/profile-name.txt and the export options to
 $RUNNER_TEMP/ExportOptions.plist. Prints nothing secret.
 """
 import base64
-import json
 import os
 from pathlib import Path
 import plistlib
 import subprocess
 import sys
 import time
-import urllib.error
-import urllib.request
 
-BUNDLE = 'dev.rudek.timeclaim'
+from asc import BUNDLE, api
+
 PREFIX = 'TimeClaim CI'
-KEY_ID = os.environ['ASC_KEY_ID']
-ISSUER = os.environ['ASC_ISSUER_ID']
-KEY_PATH = os.environ['ASC_KEY_PATH']
 CERTIFICATE_ID = os.environ['APPLE_CERTIFICATE_ID']
 TEAM_ID = os.environ['APPLE_TEAM_ID']
-
-
-def b64(data):
-    return base64.urlsafe_b64encode(data).rstrip(b'=')
-
-
-def token():
-    now = int(time.time())
-    header = b64(json.dumps({'alg': 'ES256', 'kid': KEY_ID, 'typ': 'JWT'}).encode())
-    payload = b64(json.dumps({'iss': ISSUER, 'iat': now - 10, 'exp': now + 600,
-                              'aud': 'appstoreconnect-v1'}).encode())
-    message = header + b'.' + payload
-    der = subprocess.run(['openssl', 'dgst', '-sha256', '-sign', KEY_PATH], input=message,
-                         capture_output=True, check=True).stdout
-    # DER sequence of two integers (r, s); JWT wants them as 32 bytes each.
-    rlen = der[3]
-    r = int.from_bytes(der[4:4 + rlen], 'big')
-    s = int.from_bytes(der[6 + rlen:6 + rlen + der[5 + rlen]], 'big')
-    return (message + b'.' + b64(r.to_bytes(32, 'big') + s.to_bytes(32, 'big'))).decode()
-
-
-def api(method, path, body=None):
-    request = urllib.request.Request(
-        'https://api.appstoreconnect.apple.com' + path, method=method,
-        data=json.dumps(body).encode() if body is not None else None,
-        headers={'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/json'})
-    try:
-        with urllib.request.urlopen(request, timeout=60) as response:
-            return json.loads(response.read())
-    except urllib.error.HTTPError as error:
-        sys.exit(f'App Store Connect API {method} {path.split("?")[0]}: HTTP {error.code} {error.read().decode()}')
 
 
 def profile_for(bundle):
