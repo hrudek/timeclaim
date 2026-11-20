@@ -109,8 +109,8 @@ h2 { font-size: clamp(1.7rem, 5vw, 2.4rem); line-height: 1.15; margin: 0 0 10px;
   font: inherit; font-weight: 700; border: 0; background: transparent; color: var(--muted);
   padding: 10px 28px; border-radius: 999px; cursor: pointer;
 }
-.switch button[aria-pressed="true"] { background: var(--navy); color: var(--mint); }
-@media (prefers-color-scheme: dark) { .switch button[aria-pressed="true"] { background: var(--mint); color: var(--navy); } }
+.switch button[aria-selected="true"] { background: var(--navy); color: var(--mint); }
+@media (prefers-color-scheme: dark) { .switch button[aria-selected="true"] { background: var(--mint); color: var(--navy); } }
 
 .guides { display: grid; gap: 32px; }
 .guide[hidden] { display: none; }
@@ -133,14 +133,27 @@ h2 { font-size: clamp(1.7rem, 5vw, 2.4rem); line-height: 1.15; margin: 0 0 10px;
 .step-body p { margin: 0; color: var(--muted); }
 .step-body .hint { margin-top: 10px; }
 .note { max-width: 760px; margin: 20px 0 0; padding: 16px 20px; border-left: 4px solid var(--mint); background: var(--bg); border-radius: 8px; }
-.other { margin: 28px 0 0; }
-.link { font: inherit; background: none; border: 0; color: var(--link); text-decoration: underline; cursor: pointer; padding: 4px; }
-.link[hidden] { display: none; }
 
 .two { display: grid; gap: 20px; }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
 .card h2 { font-size: 1.5rem; }
 .card p { color: var(--muted); }
+
+.donate { text-align: center; max-width: 760px; margin-inline: auto; }
+.donate p { max-width: 56ch; margin-inline: auto; }
+.btn-coffee { display: inline-flex; align-items: center; gap: 10px; background: var(--navy); color: var(--mint) !important; }
+.btn-coffee:hover { filter: brightness(1.2); }
+@media (prefers-color-scheme: dark) { .btn-coffee { background: var(--mint); color: var(--navy) !important; } }
+
+.page-head { background: var(--navy); padding: 16px 0; }
+.page-head .brand { margin: 0; color: #fff; text-decoration: none; font-size: 1.15rem; }
+.page-head .brand img { border-radius: 10px; }
+.legal { padding: 48px 0 72px; }
+.legal .wrap { max-width: 760px; }
+.legal h1 { font-size: clamp(1.9rem, 6vw, 2.6rem); margin-bottom: 8px; }
+.legal h2 { font-size: 1.2rem; margin: 32px 0 8px; }
+.legal p { margin: 0 0 12px; }
+.legal .meta { color: var(--muted); }
 
 .footer { background: var(--navy); color: #c5d0f5; padding: 28px 0; }
 .footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; }

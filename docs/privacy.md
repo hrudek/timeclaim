@@ -21,6 +21,10 @@ Arbeitszeiten, Zuschläge, Jobs und Einstellungen werden in einer lokalen Datenb
 
 Die Android-Version fragt beim Start bei GitHub (GitHub, Inc., USA) ab, ob eine neuere Version veröffentlicht ist. Dabei werden keine Inhalte aus der App übertragen. Technisch bedingt erhält GitHub deine IP-Adresse und Geräte-/Verbindungsdaten wie bei jedem Webseitenaufruf. Rechtsgrundlage ist das berechtigte Interesse, dir Sicherheits- und Fehlerkorrekturen anzubieten (Art. 6 Abs. 1 lit. f DSGVO). Datenschutzerklärung von GitHub: https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement
 
+## Website
+
+Diese Website liegt bei GitHub Pages (GitHub, Inc., USA). GitHub verarbeitet dabei technisch bedingt deine IP-Adresse und Verbindungsdaten in Server-Logs. Die Seite setzt keine Cookies und enthält kein Tracking. Um den aktuellen Android-Download zu finden, ruft dein Browser die GitHub-Schnittstelle api.github.com ab; dabei erhält GitHub ebenfalls deine IP-Adresse. Der Link zu PayPal.me ist ein normaler Link: Erst wenn du ihn öffnest, gilt die Datenschutzerklärung von PayPal. Rechtsgrundlage ist das berechtigte Interesse, die Website sicher und funktionsfähig bereitzustellen (Art. 6 Abs. 1 lit. f DSGVO). Datenschutzerklärung von GitHub: https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement
+
 ## Bezug der App
 
 - **iOS:** Die App wird über Apple TestFlight verteilt. Apple verarbeitet dabei Daten wie Apple-ID, Geräteinformationen, Absturzberichte und Feedback, das du über TestFlight sendest. Absturzberichte und Feedback kann der Verantwortliche in App Store Connect einsehen. Es gilt die Datenschutzerklärung von Apple: https://www.apple.com/legal/privacy/

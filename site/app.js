@@ -5,33 +5,33 @@
     ios: document.getElementById('guide-ios')
   };
   const sw = document.getElementById('switch');
-  const other = document.getElementById('other');
-  const buttons = sw.querySelectorAll('button');
-  let detected = null;
+  const tabs = Array.prototype.slice.call(sw.querySelectorAll('[role=tab]'));
+  let initial = 'android';
 
-  if (/Android/i.test(ua)) detected = 'android';
-  else if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) detected = 'ios';
+  if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) initial = 'ios';
 
-  function show(os) {
+  function show(os, focus) {
     Object.keys(guides).forEach(function (key) { guides[key].hidden = key !== os; });
-    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.os === os)); });
+    tabs.forEach(function (t) {
+      const on = t.dataset.os === os;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      if (on && focus) t.focus();
+    });
   }
 
-  buttons.forEach(function (b) {
-    b.addEventListener('click', function () { show(b.dataset.os); });
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(t.dataset.os); });
+    t.addEventListener('keydown', function (e) {
+      const next = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (next === undefined) return;
+      e.preventDefault();
+      show(tabs[(next + tabs.length) % tabs.length].dataset.os, true);
+    });
   });
 
-  if (detected) {
-    show(detected);
-    other.hidden = false;
-    other.addEventListener('click', function () {
-      other.hidden = true;
-      sw.hidden = false;
-    });
-  } else {
-    sw.hidden = false;
-    show('android');
-  }
+  sw.hidden = false;
+  show(initial);
 
   const video = document.querySelector('.hero video');
   if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
